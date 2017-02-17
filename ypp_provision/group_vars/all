@@ -1,0 +1,8 @@
+---
+# Variables listed here are applicable to all host groups
+
+# repos addr for webserver git repo
+git_repository: git@git.coding.net:liyongsheng/ypp-platform.git
+
+mysql_password: jason2017
+redis_password: jasonRedis2017

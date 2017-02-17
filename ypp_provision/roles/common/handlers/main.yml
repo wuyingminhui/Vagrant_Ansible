@@ -1,0 +1,12 @@
+---
+
+# do after finish pulling down the src code
+
+- name: change mirror
+  template:
+    src: /home/ypp_provision/templates/server/setting.j2
+    dest: /etc/maven/settings.xml
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes

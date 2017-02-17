@@ -1,0 +1,71 @@
+---
+# This task for create repo and install nessary components.
+
+- name: install necessary utils
+  yum: name={{ item }} state=present
+  with_items:
+    - curl-devel
+    - MySQL-python
+    - expat-devel
+    - gettext-devel
+    - openssl-devel
+    - zlib-devel
+    - gcc
+    - perl-ExtUtils-MakeMaker
+
+- name: install libselinux-python
+  yum: name={{ item }} state=present
+  with_items:
+    - libselinux-python
+  sudo: yes
+
+- name: install java version 1.8
+  yum: name={{ item }} state=present
+  with_items:
+    - java-1.8.0-openjdk
+    - java-1.8.0-openjdk-devel
+
+- name: install git
+  yum: name={{ item }} state=present
+  with_items:
+    - git
+
+- name: install supervisor
+  yum: name={{ item }} state=present
+  with_items:
+    - supervisor
+
+- name: install maven repo
+  shell: sudo wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
+  become: yes
+
+- name: install maven 
+  yum:
+    name: "apache-maven"
+    state: latest
+  become: yes
+
+- name: change mirror
+  template:
+    src: /home/ypp_provision/templates/common/setting.j2
+    dest: /etc/maven/settings.xml
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  sudo: yes
+
+- name: install mysql
+  yum: name={{ item }} state=present
+  with_items:
+    - mysql
+    - mysql-server
+    - mysql-devel
+
+- name: install redis
+  yum: name={{ item }} state=present
+  with_items:
+    - redis
+
+
+

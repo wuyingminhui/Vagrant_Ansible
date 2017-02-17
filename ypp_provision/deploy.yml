@@ -1,0 +1,9 @@
+---
+# This playbook deploys web app and db server  
+
+- name: Init dev local server
+  hosts: local_server
+  remote_user: root
+  roles:
+    - common
+    - server

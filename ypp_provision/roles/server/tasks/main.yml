@@ -1,0 +1,49 @@
+---
+# This task for starting service and creating repo.
+
+- name: add password for redis
+  shell: sed -i "s/# requirepass foobared/requirepass {{redis_password}}/g" /etc/redis.conf
+
+- name: restart redis server
+  service: name=redis state=restarted enabled=yes
+  sudo: yes
+
+- name: restart mysqld server
+  service: name=mysqld state=restarted enabled=yes
+  sudo: yes
+
+- name: create the repos if not exsits
+  file: path=/home/src/ state=directory mode=0777
+  sudo: yes
+
+- name: create the repos if not exsits
+  file: path=/home/logs/ state=directory mode=0777
+  sudo: yes
+
+- name: create the repos if not exsits
+  file: path=/home/deploy/ state=directory mode=0777
+  sudo: yes
+
+- name: pull src code repo
+  git: repo={{ git_repository }} dest=/home/src accept_hostkey=yes key_file=/home/ypp_provision/keys/id_rsa force=yes version=master
+  sudo: yes
+
+- name: package jar
+  shell: mvn clean package
+  args:
+    chdir: /home/src/eureka-server
+  notify:
+    - copy jar to deploy
+    - change supercvisor config
+    - restarted supercvisor service
+
+- name: change sql file
+  shell: echo "grant all privileges on *.* to root@'%' identified by '{{mysql_password}}' WITH GRANT OPTION;" > grant.sql&&echo "grant all privileges on *.* to root@'localhost' identified by '{{mysql_password}}' WITH GRANT OPTION;" >> grant.sql
+  args:
+    chdir: /home/ypp_provision/roles/server/templates
+
+- name: Restore database
+  mysql_db:
+    name: mysql
+    state: import
+    target: /home/ypp_provision/roles/server/templates/grant.sql

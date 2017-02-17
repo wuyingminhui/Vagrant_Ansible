@@ -1,0 +1,20 @@
+---
+
+- name: change supercvisor config
+  template:
+    src: /home/ypp_provision/templates/server/supervisord.j2
+    dest: /etc/supervisord.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  sudo: yes
+
+- name: restarted supercvisor service
+  service: name=supervisord state=restarted enabled=yes
+  sudo: yes
+
+- name: copy jar to deploy
+  shell: cp /home/src/eureka-server/target/eureka-server*.jar /home/deploy/eureka-server.jar
+  args:
+    chdir: /home/src/eureka-server
