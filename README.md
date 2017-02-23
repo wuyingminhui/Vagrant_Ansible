@@ -1,8 +1,6 @@
 # Vagrant_Ansible
 
-本项目用于本地vagrant自动化启动virtualBox, 通过ansible 部署整体环境。
-
-Vbox中载入centos镜像并自动provision redis, mysql, supervisor。 然后启动spring cloud jar。
+本项目用于本地vagrant自动化启动virtualBox ,并通过ansible自动化部署redis, mysql, supervisor并启动spring cloud jar的过程。
 
 主要用于开发团队自建本地测试环境及远程测试环境。
 
@@ -38,3 +36,7 @@ Vbox中载入centos镜像并自动provision redis, mysql, supervisor。 然后�
 	需要将git的key(id_rsa、id_rsa.pub)文件拷贝到ypp_provision/keys中
 	
 7. 开发者也能通过vagrant ssh登陆vbox进行操作，主项目路径放于/home目录下
+
+注: windows 环境需要安装openssh
+ 
+下载地址https://www.mls-software.com/files/setupssh-7.4p1-1.exe
