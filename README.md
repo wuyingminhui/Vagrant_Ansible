@@ -1,6 +1,8 @@
 # Vagrant_Ansible
 
-本项目用于本地vagrant自动化启动virtualBox ,并通过ansible自动化部署redis, mysql, supervisor并启动spring cloud jar的过程。
+本项目用于本地vagrant自动化启动virtualBox, 通过ansible 部署整体环境。
+
+Vbox中载入centos镜像并自动provision redis, mysql, supervisor。 然后启动spring cloud jar。
 
 主要用于开发团队自建本地测试环境及远程测试环境。
 
